@@ -5,8 +5,18 @@ function App() {
     const [messages, setMessages] = useState([]);
     const [newMessage, setNewMessage] = useState('');
 
+    const params = new URLSearchParams(window.location.search);
+    const userId = Number(params.get('user'));
+    const receiverId = userId === 1 ? 2 : 1;
+    const users = {
+    1: 'Andi',
+    2: 'Budi'
+};
+    const receiverName = users[receiverId];
+    
+
     useEffect(() => {
-        fetch('http://localhost:3000/messages/1/2')
+        fetch(`http://localhost:3000/messages/${userId}/${receiverId}`)
             .then(response => response.json())
             .then(data => {
                 setMessages(data);
@@ -21,7 +31,7 @@ function App() {
         return;
     }
 
-    fetch('http://localhost:3000/messages/1/2', {
+    fetch(`http://localhost:3000/messages/${userId}/${receiverId}`, {
         method: 'POST',
         headers: {
             'Content-Type': 'application/json'
@@ -34,7 +44,7 @@ function App() {
         .then(() => {
             setNewMessage('');
 
-            fetch('http://localhost:3000/messages/1/2')
+            fetch(`http://localhost:3000/messages/${userId}/${receiverId}`)
                 .then(response => response.json())
                 .then(data => {
                     setMessages(data);
@@ -47,7 +57,7 @@ function App() {
 
             <div className="chat-header">
                 <h2>Chat App</h2>
-                <p>Daffa</p>
+                <p>{receiverName}</p>
             </div>
 
             <div className="chat-messages">
@@ -55,7 +65,7 @@ function App() {
                     <div
                         key={message.id}
                         className={
-                            message.sender_id === 1
+                            message.sender_id === userId
                                 ? 'message sent'
                                 : 'message received'
                         }
