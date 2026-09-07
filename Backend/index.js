@@ -95,6 +95,28 @@ app.get('/messages/:senderId/:receiverId', (req, res) => {
     );
 });
 
+app.get('/users/:id', (req, res) => {
+    const userId = Number(req.params.id);
+
+    const sql = `
+        SELECT id, name
+        FROM users
+        WHERE id = ?
+    `;
+
+    db.query(sql, [userId], (err, results) => {
+        if (err) {
+            console.error(err);
+
+            return res.status(500).json({
+                message: 'Gagal mengambil user'
+            });
+        }
+
+        res.json(results[0]);
+    });
+});
+
 /*app.get('/messages', (req, res) =>{
     db.query('SELECT * FROM messages', (err, results) => {
         res.json(results);
