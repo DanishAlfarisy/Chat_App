@@ -1,0 +1,5 @@
+use npm run dev for frontend 
+use node index.js for backend
+
+link as andi : http://localhost:5173/?user=1 
+link as budi : http://localhost:5173/?user=2 

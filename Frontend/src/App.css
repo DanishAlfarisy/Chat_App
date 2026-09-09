@@ -9,16 +9,23 @@ body {
     background: #f2f2f2;
 }
 
-.chat-container {
-    width: 400px;
+.chat-layout {
+    width: 650px;
     height: 600px;
     margin: 40px auto;
+    display: flex;
     background: white;
     border-radius: 12px;
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.15);
     overflow: hidden;
+}
+
+.chat-container {
+    flex: 1;
+    height: 600px;
+    background: white;
     display: flex;
     flex-direction: column;
-    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.15);
 }
 
 .chat-header {
@@ -89,3 +96,36 @@ body {
     color: white;
     cursor: pointer;
 }
+
+.user-list {
+    width: 180px;
+    height: 600px;
+    background: white;
+    border-radius: 12px 0 0 12px;
+    padding: 15px;
+    border-right: 1px solid #ddd;
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+}
+
+.user-list h3 {
+    margin: 5px 0 15px;
+    font-size: 18px;
+}
+
+.user-list button {
+    width: 100%;
+    padding: 12px;
+    border: none;
+    border-radius: 8px;
+    background: #f2f2f2;
+    text-align: left;
+    cursor: pointer;
+    font-size: 14px;
+}
+
+.user-list button:hover {
+    background: #e5e5e5;
+}  
+
