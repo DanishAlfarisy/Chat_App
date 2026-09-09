@@ -8,8 +8,16 @@ const io = new Server(server, {
     cors: {
         origin: 'http://localhost:5173'
     }
+    
 });
 
+io.on('connection', (socket) => {
+    console.log('User terhubung:', socket.id);
+
+    socket.on('disconnect', () => {
+        console.log('User terputus:', socket.id);
+    });
+});
 
 const userRoutes = require('./routes/userRoutes');
 const messageRoutes = require('./routes/messageRoutes');
