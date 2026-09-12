@@ -1,4 +1,5 @@
 import { useEffect, useState } from 'react';
+import { io } from 'socket.io-client';
 
 import UserList from '../components/UserList';
 import ChatHeader from '../components/ChatHeader';
@@ -10,6 +11,8 @@ import {
     getMessages,
     sendMessage
 } from '../services/api';
+
+const socket = io('http://localhost:3000');
 
 function ChatPage() {
     const currentUserId = 1;
@@ -42,33 +45,61 @@ function ChatPage() {
             });
     }, [selectedUser]);
 
+     useEffect(() => {
+        const handleNewMessage = (message) => {
+            setMessages(prevMessages => [
+                ...prevMessages,
+                message
+            ]);
+        };
+
+        socket.on('new_message', handleNewMessage);
+
+        return () => {
+            socket.off('new_message', handleNewMessage);
+        };
+    }, []);
+
+
     const handleSelectUser = (user) => {
         setSelectedUser(user);
     };
 
     const handleSendMessage = async (message) => {
-        if (!selectedUser) {
-            return;
-        }
+    if (!selectedUser) {
+        return;
+    }
 
-        try {
-            await sendMessage(
-                currentUserId,
-                selectedUser.id,
-                message
-            );
+    try {
+        await sendMessage(
+            currentUserId,
+            selectedUser.id,
+            message
+        );
 
-            const updatedMessages = await getMessages(
-                currentUserId,
-                selectedUser.id
-            );
+        socket.emit('send_message', {
+    senderId: currentUserId,
+    receiverId: selectedUser.id,
+    message: message
+});
 
-            setMessages(updatedMessages);
+console.log('SEND SOCKET:', {
+    senderId: currentUserId,
+    receiverId: selectedUser.id,
+    message: message
+});
 
-        } catch (error) {
-            console.error(error);
-        }
-    };
+        const updatedMessages = await getMessages(
+            currentUserId,
+            selectedUser.id
+        );
+
+        setMessages(updatedMessages);
+
+    } catch (error) {
+        console.error(error);
+    }
+};
 
     return (
         <div className="chat-layout">

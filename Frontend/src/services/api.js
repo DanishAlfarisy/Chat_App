@@ -36,9 +36,16 @@ export async function sendMessage(senderId, receiverId, message) {
         }
     );
 
+    // Untuk debugging
+    console.log('POST status:', response.status);
+
+    const data = await response.json();
+
     if (!response.ok) {
+        console.error('POST error:', data);
+
         throw new Error('Gagal mengirim message');
     }
 
-    return response.json();
+    return data;
 }
