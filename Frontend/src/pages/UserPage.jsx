@@ -8,8 +8,6 @@ function UserPage(){
     const currentUserId = 1;
     const [users, setUsers] = useState([]);
     const navigate = useNavigate();
-
-
     useEffect(() => {
             getUsers()
                 .then(data => {
