@@ -16,4 +16,4 @@ The backend is built with **Node.js and Express.js**, while **MySQL** is used to
 - **React** — Frontend UI
 - **Vite** — React development and build tool
 - **JavaScript** — Main programming language
-- - **Socet.io** — Real-Time Chat
+- **Socet.io** — Real-Time Chat
