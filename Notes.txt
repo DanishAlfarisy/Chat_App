@@ -1,5 +1,13 @@
-use npm run dev for frontend 
-use node index.js for backend
+USE 1 TERMINAL FOR frontend
+cd frontend
+npm run dev
+look at localhost:5173
 
-link as andi : http://localhost:5173/?user=1 
-link as budi : http://localhost:5173/?user=2 
+USE 1 terminal for backend 
+cd backend
+npm run dev
+look at localhost:3000
+
+CORS for allowing  frontend to get data from backend
+Socket.IO for real-time app
+BISMILLAH REMOTE WORK with salary $20/hr
