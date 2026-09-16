@@ -1,29 +1,70 @@
 const authService = require('../services/authServices');
 
-const register = async (req, res) => {
+
+const register = (req, res) => {
+
     const { name, email, password } = req.body;
 
-    try {
-        const result = await authService.registerUser(
-            name,
-            email,
-            password
-        );
+    authService.registerUser(
+        name,
+        email,
+        password,
+        (err, result) => {
 
-        res.status(201).json({
-            message: 'User berhasil dibuat',
-            id: result.insertId
-        });
+            if (err) {
+                console.error(err);
 
-    } catch (error) {
-        console.error(error);
+                return res.status(500).json({
+                    message: 'Gagal melakukan register'
+                });
+            }
 
-        res.status(500).json({
-            message: 'Gagal melakukan register'
-        });
-    }
+            res.status(201).json({
+                message: 'User berhasil dibuat',
+                id: result.insertId
+            });
+        }
+    );
 };
 
+
+const login = (req, res) => {
+
+    const { email, password } = req.body;
+
+    authService.loginUser(
+        email,
+        password,
+        (err, user) => {
+
+            if (err) {
+                console.error(err);
+
+                return res.status(500).json({
+                    message: 'Terjadi kesalahan server'
+                });
+            }
+
+            if (!user) {
+                return res.status(401).json({
+                    message: 'Email atau password salah'
+                });
+            }
+
+            return res.status(200).json({
+                message: 'Login berhasil',
+                user: {
+                    id: user.id,
+                    name: user.name,
+                    email: user.email
+                }
+            });
+        }
+    );
+};
+
+
 module.exports = {
-    register
+    register,
+    login
 };
