@@ -16,4 +16,4 @@ db.connect((err) => {
     console.log('MySQL berhasil terhubung!');
 });
 
-module.exports = db;
+module.exports = db.promise();

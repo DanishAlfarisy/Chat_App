@@ -1,68 +1,65 @@
 const authService = require('../services/authServices');
 
 
-const register = (req, res) => {
-
+async function register(req, res) {
     const { name, email, password } = req.body;
 
-    authService.registerUser(
-        name,
-        email,
-        password,
-        (err, result) => {
+    try {
+        const result = await authService.registerUser(
+            name,
+            email,
+            password
+        );
 
-            if (err) {
-                console.error(err);
+        return res.status(201).json({
+            message: 'User berhasil dibuat',
+            id: result.insertId
+        });
 
-                return res.status(500).json({
-                    message: 'Gagal melakukan register'
-                });
-            }
+    } catch (error) {
+        console.error(error);
 
-            res.status(201).json({
-                message: 'User berhasil dibuat',
-                id: result.insertId
-            });
-        }
-    );
+        return res.status(500).json({
+            message: 'Gagal melakukan register'
+        });
+    }
 };
 
 
-const login = (req, res) => {
-
+async function login(req, res) {
     const { email, password } = req.body;
 
-    authService.loginUser(
-        email,
-        password,
-        (err, user) => {
+     try {
+        const user = await authService.loginUser(
+            email,
+            password
+        );
 
-            if (err) {
-                console.error(err);
-
-                return res.status(500).json({
-                    message: 'Terjadi kesalahan server'
-                });
-            }
-
-            if (!user) {
-                return res.status(401).json({
-                    message: 'Email atau password salah'
-                });
-            }
-
-            return res.status(200).json({
-                message: 'Login berhasil',
-                user: {
-                    id: user.id,
-                    name: user.name,
-                    email: user.email
-                }
+        // User tidak ditemukan atau password salah
+        if (!user) {
+            return res.status(401).json({
+                message: 'Email atau password salah'
             });
         }
-    );
-};
 
+        // Login berhasil
+        return res.status(200).json({
+            message: 'Login berhasil',
+            user: {
+                id: user.id,
+                name: user.name,
+                email: user.email
+            }
+        });
+
+    } catch (error) {
+        console.error(error);
+
+        return res.status(500).json({
+            message: 'Terjadi kesalahan server'
+        });
+    }
+};
 
 module.exports = {
     register,
