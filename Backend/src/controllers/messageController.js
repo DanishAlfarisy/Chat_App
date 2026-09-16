@@ -1,6 +1,6 @@
 const db = require('../config/database');
 
-const getConversation = (req, res) => {
+async function getConversation(req, res) {
     const senderId = Number(req.params.senderId);
     const receiverId = Number(req.params.receiverId);
 
@@ -14,25 +14,23 @@ const getConversation = (req, res) => {
         ORDER BY created_at ASC
     `;
 
-    db.query(
-        sql,
-        [senderId, receiverId, receiverId, senderId],
-        (err, results) => {
+   try {
+        const [results] = await db.query(
+            sql,
+            [senderId, receiverId, receiverId, senderId]
+        );
 
-            if (err) {
-                console.error(err);
+        return res.json(results);
 
-                return res.status(500).json({
-                    message: 'Gagal mengambil percakapan'
-                });
-            }
+    } catch (err) {
+        console.error(err);
 
-            res.json(results);
-        }
-    );
+        return res.status(500).json({
+            message: 'Gagal mengambil percakapan'
+        });
+    }
 };
-
-const createMessage = (req, res) => {
+async function createMessage(req, res){
     const senderId = Number(req.params.senderId);
     const receiverId = Number(req.params.receiverId);
     const message = req.body.message;
@@ -42,25 +40,24 @@ const createMessage = (req, res) => {
         VALUES (?, ?, ?)
     `;
 
-    db.query(
-        sql,
-        [senderId, receiverId, message],
-        (err, result) => {
+  try {
+        const [result] = await db.query(
+            sql,
+            [senderId, receiverId, message]
+        );
 
-            if (err) {
-                console.error(err);
+        return res.status(201).json({
+            message: 'Pesan berhasil dikirim',
+            id: result.insertId
+        });
 
-                return res.status(500).json({
-                    message: 'Gagal mengirim pesan'
-                });
-            }
+    } catch (err) {
+        console.error(err);
 
-            res.status(201).json({
-                message: 'Pesan berhasil dikirim',
-                id: result.insertId
-            });
-        }
-    );
+        return res.status(500).json({
+            message: 'Gagal mengirim pesan'
+        });
+    }
 };
 
 module.exports = {
