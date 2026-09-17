@@ -1,4 +1,4 @@
-function ChatMessages({ messages, currentUserId }) {
+function ChatMessages({ messages, currentUserId, isTyping }) {
     return (
         <div className="chat-messages">
             {messages.map(message => (
@@ -13,6 +13,13 @@ function ChatMessages({ messages, currentUserId }) {
                     <p>{message.message}</p>
                 </div>
             ))}
+            {isTyping && (
+                <div className="message received typing">
+                    <span>.</span>
+                    <span>.</span>
+                    <span>.</span>
+                </div>
+            )}
         </div>
     );
 }
