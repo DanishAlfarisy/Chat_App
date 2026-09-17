@@ -1,20 +1,23 @@
 const db = require('../config/database');
 
-const getUsers = (req, res) => {
-    db.query('SELECT * FROM users', (err, results) => {
-        if (err) {
-            console.error(err);
+async function getUsers(req, res) {
+    try {
+        const [results] = await db.query(
+            'SELECT * FROM users'
+        );
 
-            return res.status(500).json({
-                message: 'Gagal mengambil users'
-            });
-        }
+        return res.json(results);
 
-        res.json(results);
-    });
-};
+    } catch (err) {
+        console.error(err);
 
-const getUserById = (req, res) => {
+        return res.status(500).json({
+            message: 'Gagal mengambil users'
+        });
+    }
+}
+
+async function  getUserById (req, res){
     const userId = Number(req.params.id);
 
     const sql = `
@@ -23,18 +26,23 @@ const getUserById = (req, res) => {
         WHERE id = ?
     `;
 
-    db.query(sql, [userId], (err, results) => {
-        if (err) {
-            console.error(err);
+    try {
+        const [results] = await db.query(
+            sql,
+            [userId]
+        );
 
-            return res.status(500).json({
-                message: 'Gagal mengambil user'
-            });
-        }
+        return res.json(results[0]);
 
-        res.json(results[0]);
-    });
+    } catch (err) {
+        console.error(err);
+
+        return res.status(500).json({
+            message: 'Gagal mengambil user'
+        });
+    }
 };
+
 
 module.exports = {
     getUsers,
