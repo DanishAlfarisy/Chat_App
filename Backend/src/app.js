@@ -26,6 +26,14 @@ io.on('connection', (socket) => {
     });
     });
 
+    socket.on('typing', (data) => {
+    socket.broadcast.emit('user_typing', {
+        senderId: data.senderId,
+        receiverId: data.receiverId,
+        isTyping: data.isTyping
+    });
+});
+
     socket.on('disconnect', () => {
         console.log('User terputus:', socket.id);
     });
