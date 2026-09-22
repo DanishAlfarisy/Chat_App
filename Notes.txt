@@ -11,3 +11,6 @@ look at localhost:3000
 CORS for allowing  frontend to get data from backend
 Socket.IO for real-time app
 BISMILLAH REMOTE WORK with salary $20/hr
+
+
+Userpage and chatpage will replace currentUserID remember it please!!

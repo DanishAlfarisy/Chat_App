@@ -1,6 +1,6 @@
 import { useEffect, useState } from 'react';
 import { io } from 'socket.io-client';
-
+import { useSearchParams } from 'react-router-dom';
 import UserList from '../components/UserList';
 import ChatHeader from '../components/ChatHeader';
 import ChatMessages from '../components/ChatMessages';
@@ -15,11 +15,14 @@ import {
 const socket = io('http://localhost:3000');
 
 function ChatPage() {
-    const currentUserId = 1;
+
+const [searchParams] = useSearchParams();
+const currentUserId = Number(searchParams.get('user'));
 
     const [users, setUsers] = useState([]);
     const [selectedUser, setSelectedUser] = useState(null);
     const [messages, setMessages] = useState([]);
+    const [isTyping, setIsTyping] = useState(false);
 
     useEffect(() => {
         getUsers()
@@ -64,6 +67,35 @@ function ChatPage() {
     const handleSelectUser = (user) => {
         setSelectedUser(user);
     };
+
+    const handleTyping = (typing) => {
+    if (!selectedUser) {
+        return;
+    }
+
+    socket.emit('typing', {
+        senderId: currentUserId,
+        receiverId: selectedUser.id,
+        isTyping: typing
+    });
+        };
+
+    useEffect(() => {
+    const handleTyping = (data) => {
+        if (
+            data.senderId === selectedUser?.id &&
+            data.receiverId === currentUserId
+        ) {
+            setIsTyping(data.isTyping);
+        }
+    };
+
+    socket.on('user_typing', handleTyping);
+
+    return () => {
+        socket.off('user_typing', handleTyping);
+    };
+}, [selectedUser, currentUserId]);
 
     const handleSendMessage = async (message) => {
     if (!selectedUser) {
@@ -116,10 +148,12 @@ console.log('SEND SOCKET:', {
                 <ChatMessages
                     messages={messages}
                     currentUserId={currentUserId}
+                    isTyping={isTyping}
                 />
 
                 <ChatInput
                     onSend={handleSendMessage}
+                    onTyping={handleTyping}
                 />
 
             </div>
