@@ -1,3 +1,5 @@
+import MessageLoading from './MessageLoading';
+
 function ChatMessages({ messages, currentUserId, isTyping }) {
     return (
         <div className="chat-messages">
@@ -15,9 +17,7 @@ function ChatMessages({ messages, currentUserId, isTyping }) {
             ))}
             {isTyping && (
                 <div className="message received typing">
-                    <span>.</span>
-                    <span>.</span>
-                    <span>.</span>
+                    <MessageLoading />
                 </div>
             )}
         </div>

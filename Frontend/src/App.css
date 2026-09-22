@@ -63,9 +63,14 @@ body {
 }
 
 .typing {
-    width: 45px;
-    height: 50px;
-    border-radius: 16px;
+    display: flex;
+    align-items: center;
+    width: fit-content;
+    padding: 8px 12px;
+}
+
+.typing svg {
+    display: block;
 }
 
 .sent {
