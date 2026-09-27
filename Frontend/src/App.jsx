@@ -1,10 +1,7 @@
 import { BrowserRouter, Routes, Route } from 'react-router-dom';
-
-
 import UserPage from './pages/UserPage';
 import ChatPage from './pages/ChatPage';
 import './App.css'; 
-
 
 function App() {
     return (

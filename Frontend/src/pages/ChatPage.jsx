@@ -134,11 +134,6 @@ console.log('SEND SOCKET:', {
     return (
         <div className="chat-layout">
 
-            <UserList
-                users={users}
-                onSelectUser={handleSelectUser}
-            />
-
             <div className="chat-container">
 
                 <ChatHeader user={selectedUser} />
