@@ -1,5 +1,5 @@
 import { useEffect, useState } from 'react';
-import { io } from 'socket.io-client';
+import socket from '../services/socket';
 import { useSearchParams } from 'react-router-dom';
 import UserList from '../components/UserList';
 import ChatHeader from '../components/ChatHeader';
@@ -11,8 +11,6 @@ import {
     getMessages,
     sendMessage
 } from '../services/api';
-
-const socket = io('http://localhost:3000');
 
 function ChatPage() {
 
