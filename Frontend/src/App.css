@@ -140,3 +140,223 @@ body {
     background: #e5e5e5;
 }  
 
+.people-page {
+    min-height: 100vh;
+    padding: 60px 24px;
+    background: #ecebe7;
+
+    display: flex;
+    justify-content: center;
+    align-items: flex-start;
+}
+
+.people-shell {
+    width: 100%;
+    max-width: 760px;
+
+    background: #f8f7f3;
+    border: 1px solid #d9d8d2;
+
+    box-shadow: 8px 8px 0 #d1d0c9;
+}
+
+/* TOP */
+
+.people-top {
+    min-height: 230px;
+    padding: 32px;
+
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start;
+
+    border-bottom: 1px solid #d9d8d2;
+}
+
+.page-index {
+    font-size: 11px;
+    font-weight: 700;
+    letter-spacing: 0.14em;
+    color: #8a8982;
+}
+
+.people-top h1 {
+    margin: 24px 0 0;
+
+    font-size: 44px;
+    line-height: 0.98;
+    letter-spacing: -0.05em;
+    font-weight: 700;
+
+    color: #181816;
+}
+
+.identity {
+    min-width: 70px;
+
+    display: flex;
+    flex-direction: column;
+    align-items: flex-end;
+
+    border-left: 1px solid #d9d8d2;
+    padding-left: 18px;
+}
+
+.identity span {
+    font-size: 9px;
+    letter-spacing: 0.14em;
+    color: #999890;
+}
+
+.identity strong {
+    margin-top: 5px;
+    font-size: 18px;
+    color: #181816;
+}
+
+/* LIST */
+
+.people-list {
+    padding: 16px 0 0;
+}
+
+.list-meta {
+    display: flex;
+    justify-content: space-between;
+
+    padding: 0 28px 12px;
+
+    font-size: 9px;
+    font-weight: 700;
+    letter-spacing: 0.14em;
+    color: #999890;
+}
+
+/* PERSON */
+
+.person {
+    width: 100%;
+    min-height: 78px;
+
+    display: grid;
+    grid-template-columns: 42px 48px 1fr auto 28px;
+    align-items: center;
+    gap: 14px;
+
+    padding: 12px 28px;
+
+    border: 0;
+    border-top: 1px solid #d9d8d2;
+
+    background: transparent;
+
+    text-align: left;
+    color: #181816;
+
+    cursor: pointer;
+
+    transition:
+        background 140ms ease,
+        padding-left 140ms ease;
+}
+
+.person:hover {
+    background: #e9e8e3;
+    padding-left: 34px;
+}
+
+.person-number {
+    font-family: monospace;
+    font-size: 11px;
+    color: #aaa9a2;
+}
+
+.person-avatar {
+    width: 40px;
+    height: 40px;
+
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    background: #181816;
+    color: #f8f7f3;
+
+    border-radius: 50%;
+
+    font-size: 13px;
+    font-weight: 700;
+}
+
+.person-name {
+    font-size: 17px;
+    font-weight: 600;
+    letter-spacing: -0.02em;
+}
+
+.person-id {
+    font-family: monospace;
+    font-size: 10px;
+    color: #9c9b94;
+}
+
+.person-arrow {
+    font-size: 20px;
+    color: #8f8e87;
+
+    transition:
+        transform 140ms ease,
+        color 140ms ease;
+}
+
+.person:hover .person-arrow {
+    transform: translate(3px, -3px);
+    color: #181816;
+}
+
+/* EMPTY */
+
+.empty-people {
+    padding: 36px 28px;
+
+    border-top: 1px solid #d9d8d2;
+
+    font-size: 13px;
+    color: #999890;
+}
+
+/* MOBILE */
+
+@media (max-width: 600px) {
+    .people-page {
+        padding: 20px 12px;
+    }
+
+    .people-shell {
+        box-shadow: 4px 4px 0 #d1d0c9;
+    }
+
+    .people-top {
+        min-height: auto;
+        padding: 24px 20px;
+    }
+
+    .people-top h1 {
+        font-size: 34px;
+    }
+
+    .person {
+        grid-template-columns: 28px 40px 1fr 24px;
+        gap: 10px;
+        padding: 12px 18px;
+    }
+
+    .person-id {
+        display: none;
+    }
+
+    .list-meta {
+        padding-left: 18px;
+        padding-right: 18px;
+    }
+}
