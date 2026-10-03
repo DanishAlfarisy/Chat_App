@@ -1,4 +1,5 @@
 const authService = require('../services/authServices');
+const jwt = require('jsonwebtoken');
 
 
 async function register(req, res) {
@@ -23,28 +24,33 @@ async function register(req, res) {
             message: 'Gagal melakukan register'
         });
     }
-};
+}
 
 
 async function login(req, res) {
     const { email, password } = req.body;
 
-     try {
+    try {
         const user = await authService.loginUser(
             email,
             password
         );
 
-        // User tidak ditemukan atau password salah
         if (!user) {
             return res.status(401).json({
                 message: 'Email atau password salah'
             });
         }
 
-        // Login berhasil
+        const token = jwt.sign(
+            { userId: user.id },
+            process.env.JWT_SECRET,
+            { expiresIn: '1h' }
+        );
+
         return res.status(200).json({
             message: 'Login berhasil',
+            token,
             user: {
                 id: user.id,
                 name: user.name,
@@ -59,7 +65,8 @@ async function login(req, res) {
             message: 'Terjadi kesalahan server'
         });
     }
-};
+}
+
 
 module.exports = {
     register,
